@@ -1,131 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Merry Christmas</title>
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(120deg, #6b0000, #333333, #004000);
-        background-size: 300% 300%;
-        animation: gradientShift 15s 1;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merry Christmas</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(120deg, #6B0000, #333333, #004000);
+      background-size: 300% 300%;
+      animation: gradientShift 15s 1;
+    }
 
-      @keyframes gradientShift {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: white;
+      font-size: 1rem;
+      animation: fall linear infinite;
+      user-select: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10px) rotate(0deg);
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    #message {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      color: white;
+      white-space: nowrap;
+      display: flex;
+      justify-content: center;
+    }
+
+    #message span {
+      opacity: 0;
+      margin: 0 0.2rem;
+      animation: reveal 0.3s forwards, turnGold 15s forwards;
+    }
+
+    @keyframes reveal {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes turnGold {
+      0% { color: white; }
+      100% { color: gold; text-shadow: 0 0 10px gold, 0 0 20px gold; }
+    }
+
+    @media (max-width: 768px) {
+      #message {
+        font-size: 2rem;
       }
 
       .snowflake {
-        position: absolute;
-        top: -10px;
-        color: white;
-        font-size: 1rem;
-        animation: fall linear infinite;
-        user-select: none;
+        font-size: 0.8rem;
       }
+    }
+  </style>
+</head>
+<body>
+  <div id="message"></div>
 
-      @keyframes fall {
-        0% {
-          transform: translateY(-10px) rotate(0deg);
-        }
-        100% {
-          transform: translateY(110vh) rotate(360deg);
-        }
+  <script>
+    const messageText = "Merry Christmas from the Leitheads";
+    const messageContainer = document.getElementById('message');
+
+    messageText.split('').forEach((char, index) => {
+      const span = document.createElement('span');
+      span.textContent = char;
+      span.style.animationDelay = `${index * 0.03}s`;
+      messageContainer.appendChild(span);
+    });
+
+    const snowflakeCharacters = ['❄', '✻', '❅', '❆'];
+
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.className = 'snowflake';
+      snowflake.textContent = snowflakeCharacters[Math.floor(Math.random() * snowflakeCharacters.length)];
+
+      const size = Math.random() * 20 + 10;
+      snowflake.style.fontSize = `${size}px`;
+
+      snowflake.style.left = `${Math.random() * 100}vw`;
+      snowflake.style.animationDuration = `${Math.random() * 3 + 5}s`;
+
+      document.body.appendChild(snowflake);
+
+      snowflake.addEventListener('animationend', () => snowflake.remove());
+    }
+
+    setInterval(createSnowflake, 200);
+
+    document.body.addEventListener('animationend', (event) => {
+      if (event.animationName === 'gradientShift') {
+        document.body.classList.add('animation-complete');
       }
-
-      #message {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 4rem;
-        color: white;
-        white-space: nowrap;
-        display: flex;
-        justify-content: center;
-      }
-
-      #message span {
-        opacity: 0;
-        margin: 0 0.2rem;
-        animation: reveal 0.3s forwards, turnGold 15s forwards;
-      }
-
-      @keyframes reveal {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-
-      @keyframes turnGold {
-        0% {
-          color: white;
-        }
-        100% {
-          color: gold;
-          text-shadow: 0 0 10px gold, 0 0 20px gold;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message"></div>
-
-    <script>
-      const messageText = "Merry Christmas from the Leitheads!";
-      const messageContainer = document.getElementById("message");
-
-      messageText.split("").forEach((char, index) => {
-        const span = document.createElement("span");
-        span.textContent = char;
-        span.style.animationDelay = `${index * 0.03}s`;
-        messageContainer.appendChild(span);
-      });
-
-      const snowflakeCharacters = ["❄", "✻", "❅", "❆"];
-
-      function createSnowflake() {
-        const snowflake = document.createElement("div");
-        snowflake.className = "snowflake";
-        snowflake.textContent =
-          snowflakeCharacters[
-            Math.floor(Math.random() * snowflakeCharacters.length)
-          ];
-
-        const size = Math.random() * 20 + 10;
-        snowflake.style.fontSize = `${size}px`;
-
-        snowflake.style.left = `${Math.random() * 100}vw`;
-        snowflake.style.animationDuration = `${Math.random() * 3 + 5}s`;
-
-        document.body.appendChild(snowflake);
-
-        snowflake.addEventListener("animationend", () => snowflake.remove());
-      }
-
-      setInterval(createSnowflake, 200);
-
-      document.body.addEventListener("animationend", (event) => {
-        if (event.animationName === "gradientShift") {
-          document.body.classList.add("animation-complete");
-        }
-      });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
